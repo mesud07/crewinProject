@@ -1,4 +1,4 @@
  
  import 'package:flutter/material.dart';
 
-Color backgroundColor = Colors.blueAccent;
+Color backgroundColor = Color.fromRGBO(24, 76, 160, 1);
