@@ -1,7 +1,9 @@
+import 'package:crewin_project/controller/controller.dart';
 import 'package:crewin_project/helper/appBar.dart';
 import 'package:crewin_project/helper/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 class AddOldPage extends StatefulWidget {
   const AddOldPage({ Key? key }) : super(key: key);
 
@@ -10,7 +12,7 @@ class AddOldPage extends StatefulWidget {
 }
 
 class _AddOldPageState extends State<AddOldPage> {
-  int selectValue = 0;
+  int selectValue = 14;
   List items=[];
   int pageNumber =2;
   @override
@@ -29,7 +31,7 @@ class _AddOldPageState extends State<AddOldPage> {
         child: ListView(
           
           children: [
-             
+         
           Container(
             
             height: MediaQuery.of(context).size.height*1.95/3,
@@ -37,6 +39,7 @@ class _AddOldPageState extends State<AddOldPage> {
 
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+
                 Container(
                   
                   margin: EdgeInsets.only(bottom: 40),
@@ -47,7 +50,7 @@ class _AddOldPageState extends State<AddOldPage> {
                   //looping: true,
                   onSelectedItemChanged: (int value) { 
                     setState(() {
-                      selectValue=value;
+                      selectValue=value+14;
                     });
                    },
                   children: items.map((e) => Center(child: MyText(e.toString(), 30, Colors.black))).toList(),),
@@ -57,7 +60,7 @@ class _AddOldPageState extends State<AddOldPage> {
       
               ],
             )),
-          contiuneFunction(context,"addYear"),
+          contiuneFunction(context,"addYear",selectValue.toString()),
           sliderDat(context,pageNumber)
         ],),
       ),

@@ -1,7 +1,9 @@
+import 'package:crewin_project/controller/controller.dart';
 import 'package:crewin_project/helper/appBar.dart';
 import 'package:crewin_project/helper/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 class AddWeightPage extends StatefulWidget {
   const AddWeightPage({ Key? key }) : super(key: key);
 
@@ -10,9 +12,10 @@ class AddWeightPage extends StatefulWidget {
 }
 
 class _AddWeightPageState extends State<AddWeightPage> {
-  int selectValue = 0;
+  int selectValue = 50;
   List items=[];
   int pageNumber =4;
+  int selectedTyoe =0;
   @override
   void initState() {
     // TODO: implement initState
@@ -29,7 +32,7 @@ class _AddWeightPageState extends State<AddWeightPage> {
         child: ListView(
           
           children: [
-             
+           
           Container(
             
             height: MediaQuery.of(context).size.height*1.95/3,
@@ -56,7 +59,7 @@ class _AddWeightPageState extends State<AddWeightPage> {
                       //looping: true,
                       onSelectedItemChanged: (int value) { 
                         setState(() {
-                          selectValue=value;
+                          selectValue=value+50;
                         });
                        },
                       children: items.map((e) => Center(child:MyText(e.toString(), 27, Colors.black))).toList(),),
@@ -69,7 +72,7 @@ class _AddWeightPageState extends State<AddWeightPage> {
                   //looping: true,
                   onSelectedItemChanged: (int value) { 
                     setState(() {
-                      selectValue=value;
+                      //selectedValue=value;
                     });
                    },
                   children: [
@@ -86,7 +89,7 @@ class _AddWeightPageState extends State<AddWeightPage> {
       
               ],
             )),
-          contiuneFunction(context,"addWeight"),
+          contiuneFunction(context,"addWeight",selectValue.toString()+"/kg"),
           sliderDat(context,pageNumber)
         ],),
       ),

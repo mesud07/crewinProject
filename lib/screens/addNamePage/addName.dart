@@ -40,7 +40,7 @@ class _AddNamePageState extends State<AddNamePage> {
                   controller: nameController,
                   decoration: InputDecoration(
                   hintText: "Your Name"
-          
+                  
           ),
           validator:(value){
             value!.length>6? null : "hata";
@@ -49,7 +49,7 @@ class _AddNamePageState extends State<AddNamePage> {
       ),
               ],
             )),
-          contiuneFunction(context,"addName")
+          contiuneFunction(context,"addName",nameController.text)
         ],),
       ),
       

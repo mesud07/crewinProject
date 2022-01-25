@@ -1,7 +1,9 @@
+import 'package:crewin_project/controller/controller.dart';
 import 'package:crewin_project/helper/appBar.dart';
 import 'package:crewin_project/helper/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 class AddLenghtPage extends StatefulWidget {
   const AddLenghtPage({ Key? key }) : super(key: key);
 
@@ -10,9 +12,11 @@ class AddLenghtPage extends StatefulWidget {
 }
 
 class _AddLenghtPageState extends State<AddLenghtPage> {
-  int selectValue = 0;
+  int selectValue = 110;
+  int selectTypValue =0;
   List items=[];
   int pageNumber =3;
+  String cins ="cm";
   @override
   void initState() {
     // TODO: implement initState
@@ -56,7 +60,7 @@ class _AddLenghtPageState extends State<AddLenghtPage> {
                       //looping: true,
                       onSelectedItemChanged: (int value) { 
                         setState(() {
-                          selectValue=value;
+                          selectValue=value+110;
                         });
                        },
                       children: items.map((e) => Center(child:MyText(e.toString(), 27, Colors.black))).toList(),),
@@ -69,7 +73,13 @@ class _AddLenghtPageState extends State<AddLenghtPage> {
                   //looping: true,
                   onSelectedItemChanged: (int value) { 
                     setState(() {
-                      selectValue=value;
+                      //selectTypValue=value;
+                      if(value!=0){
+                        cins="ft";
+                      }else{
+                        cins="cm";
+                      }
+                      print(cins);
                     });
                    },
                   children: [
@@ -85,7 +95,8 @@ class _AddLenghtPageState extends State<AddLenghtPage> {
       
               ],
             )),
-          contiuneFunction(context,"addLenght"),
+            
+          contiuneFunction(context,"addLenght",selectValue.toString()+"/$cins"),
           sliderDat(context,pageNumber)
         ],),
       ),

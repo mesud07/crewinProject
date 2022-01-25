@@ -1,5 +1,8 @@
 import 'package:crewin_project/helper/helper.dart';
 import 'package:crewin_project/helper/style.dart';
+import 'package:crewin_project/screens/addNamePage/addName.dart';
+import 'package:crewin_project/service/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,13 +14,19 @@ class SignInUpPage extends StatefulWidget {
 }
 
 class _SignInUpPageState extends State<SignInUpPage> {
+  Auth _auth = Auth();
   late String userName,email,password;
   var _key = GlobalKey<FormState>();
   bool kayitDurumu = false;
   TextEditingController _mailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _repasswordController = TextEditingController();
+
   bool girismi = false;
   List<bool> isSelected = [true, false];
   String emailTitle = "Email";
+
+  
  
   @override
   Widget build(BuildContext context) {
@@ -25,10 +34,7 @@ class _SignInUpPageState extends State<SignInUpPage> {
       
       body: ListView(
 
-      
-        
         children: [
-         
           switchButton(),
           Container(
             height: MediaQuery.of(context).size.height*1.7/3,
@@ -45,10 +51,10 @@ class _SignInUpPageState extends State<SignInUpPage> {
                     
                     
                     SizedBox(height: 20,),
-                    MyTextFormField(isSelected[1]==false?"Create Password":"Password",_mailController,TextInputType.text),
+                    MyTextFormField(isSelected[1]==false?"Create Password":"Password",_passwordController,TextInputType.text),
                     SizedBox(height: 20,),
                      if(!isSelected[1])
-                    MyTextFormField("Re-write Password",_mailController,TextInputType.text),
+                    MyTextFormField("Re-write Password",_repasswordController,TextInputType.text),
                     if(!isSelected[1])
                     SizedBox(height: 10,),
             
@@ -68,8 +74,43 @@ class _SignInUpPageState extends State<SignInUpPage> {
                 ),
               )),
           ),
-          
-          contiuneFunction(context,isSelected[1]==false ? "signUp":"signIn"),
+          Container(
+      
+          height: MediaQuery.of(context).size.height/13,
+          margin: EdgeInsets.only(left: 20,right: 20,),
+          decoration: BoxDecoration(
+            
+            borderRadius: BorderRadius.circular(15)),
+          child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: backgroundColor,
+                    ),
+                    onPressed: (){
+                     
+  
+
+                if(isSelected[1]==false){
+                      _auth.createUser(_mailController.text, _passwordController.text).whenComplete(
+                          () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>AddNamePage()), (route) => false));
+                      
+                      }else{
+                        _auth.signIn(_mailController.text, _passwordController.text).whenComplete(
+                          () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>AddNamePage()), (route) => false));
+                          print("giriş yapıldı");
+                      }
+    
+  
+                      
+                    
+                    },
+                    
+                     child: Container(
+                      
+                      width: double.infinity,
+                      height: 50,
+                      alignment: Alignment.center,
+                      child: MyText(isSelected[1]==false ? "Sign Up":"Sign In", 16, Colors.white))),
+        ),
         ],
       ),
     );
@@ -156,7 +197,7 @@ class _SignInUpPageState extends State<SignInUpPage> {
   }
 }
 
-class MyTextFormField extends StatelessWidget {
+class MyTextFormField extends StatefulWidget {
   MyTextFormField(this.title,this.controller,this.keyboardType);
 
   final String title;
@@ -164,29 +205,55 @@ class MyTextFormField extends StatelessWidget {
   final TextInputType keyboardType;
 
   @override
+  State<MyTextFormField> createState() => _MyTextFormFieldState();
+}
+
+class _MyTextFormFieldState extends State<MyTextFormField> {
+  bool passwordHidden=false;
+  @override
   Widget build(BuildContext context) {
+    
     return Column(
       children: [
         Container(
           padding: EdgeInsets.only(bottom: 10),
             alignment: Alignment.topLeft,
-            child: MyText(title,17,Colors.black)),
+            child: MyText(widget.title,17,Colors.black)),
             
       Container(
+        
         height: 50,
         child: TextFormField(
-                  keyboardType: keyboardType,
-          controller: controller,
+          
+                  keyboardType: widget.keyboardType,
+          controller: widget.controller,
+           onSaved: (String? value) {
+                          print("selam");},
+          obscureText: 
+          widget.title=="Re-write Password"&&passwordHidden==false||widget.title=="Password"&&passwordHidden==false||widget.title=="Create Password"&&passwordHidden==false?true:false,
           
           decoration: InputDecoration(
             
              border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(width: 2))
+                borderSide: BorderSide(width: 2)),
+                suffixIcon: widget.title=="Password"||widget.title=="Create Password"||widget.title=="Re-write Password"?IconButton(
+                    icon: Icon(
+                        passwordHidden ? Icons.visibility : Icons.visibility_off),
+                    onPressed: () {
+                     setState(() {
+                       passwordHidden= !passwordHidden;
+                     });
+                    }):null
           
           ),
-          validator:(value){
-            value!.length>6? null : "hata";
+          validator: (value){
+            if(widget.title=="Email"){
+            if(value!.contains('@')){
+              return null;
+            }else{
+              return "doğru giriniz";
+            }}
           },
         ),
       ),

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "849249456057",
+    "project_id": "crewinfitness",
+    "storage_bucket": "crewinfitness.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:849249456057:android:b684a21433905e40db7068",
+        "android_client_info": {
+          "package_name": "com.example.crewin_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "849249456057-i613d1pm32icrtskg67hg9k1bupjbvdt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3q55H2z8H_rZBfa5qwwkMeVTd3Rpev2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "849249456057-i613d1pm32icrtskg67hg9k1bupjbvdt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

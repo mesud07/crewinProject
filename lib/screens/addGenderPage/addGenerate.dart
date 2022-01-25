@@ -1,6 +1,9 @@
+import 'package:crewin_project/controller/controller.dart';
 import 'package:crewin_project/helper/appBar.dart';
 import 'package:crewin_project/helper/helper.dart';
+import 'package:crewin_project/helper/style.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 class AddGenderPage extends StatefulWidget {
   const AddGenderPage({ Key? key }) : super(key: key);
 
@@ -9,7 +12,8 @@ class AddGenderPage extends StatefulWidget {
 }
 
 class _AddGenderPageState extends State<AddGenderPage> {
-  int genderIndex = 2;
+  Controller _controller = Controller();
+  
   int pageNumber =1;
   @override
   Widget build(BuildContext context) {
@@ -28,6 +32,7 @@ class _AddGenderPageState extends State<AddGenderPage> {
 
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                //MyText(context.watch<Controller>().getName!=null?context.watch<Controller>().getName:"null değer", 30, Colors.black),
                 Container(
                   
                   margin: EdgeInsets.only(bottom: 40),
@@ -37,8 +42,8 @@ class _AddGenderPageState extends State<AddGenderPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        selectGender(context,Icons.female,0),
-                        selectGender(context,Icons.male,1)
+                        selectGender(context,Icons.female,0,"female"),
+                        selectGender(context,Icons.male,1,"male")
                       ],
                     ),
                     
@@ -47,7 +52,9 @@ class _AddGenderPageState extends State<AddGenderPage> {
       
               ],
             )),
-          contiuneFunction(context,"addGender"),
+        contiuneFunction(context,"addGender",context.watch<Controller>().getGender=="female"?"female":context.watch<Controller>().getGender=="male"?"male":""),
+            //nextButton(context),
+
           sliderDat(context,pageNumber)
         ],),
       ),
@@ -55,11 +62,39 @@ class _AddGenderPageState extends State<AddGenderPage> {
     );
 }
 
-  InkWell selectGender(BuildContext context,IconData icon,int index) {
+
+
+
+  Container nextButton(BuildContext context) {
+    return Container(
+    
+        height: MediaQuery.of(context).size.height/13,
+        margin: EdgeInsets.only(left: 20,right: 20,),
+        decoration: BoxDecoration(
+          
+          borderRadius: BorderRadius.circular(15)),
+        child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: backgroundColor,
+                  ),
+                  onPressed: (){
+                   //context.read<Controller>().
+                  },
+                  
+                   child: Container(
+                    
+                    width: double.infinity,
+                    height: 50,
+                    alignment: Alignment.center,
+                    child: MyText("Next", 16, Colors.white))),
+      );
+  }
+
+  InkWell selectGender(BuildContext context,IconData icon,int index,String deger) {
     return InkWell(
                     onTap: (){
                     setState(() {
-                      genderIndex=index;
+                      context.read<Controller>().addGender(deger);
                     });
                     },
                     child: Column(
@@ -80,8 +115,8 @@ class _AddGenderPageState extends State<AddGenderPage> {
                             color: Colors.white),
                           child: Icon(icon,size: 150,
                           color: 
-                          genderIndex==index && icon==Icons.female?Colors.red:
-                          genderIndex==index && icon==Icons.male?Colors.black:Colors.grey),
+                           context.watch<Controller>().getGender==deger && icon==Icons.female?Colors.red:
+                          context.watch<Controller>().getGender== deger && icon==Icons.male?Colors.black:Colors.grey),
                   
                         ),
                         Container(

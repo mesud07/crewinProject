@@ -45,11 +45,11 @@ PreferredSizeWidget header (BuildContext context,String name,){
   //    },)
   //]:null,
   leading: 
-  IconButton(icon: const Icon(Icons.arrow_back,color: Colors.black,),
+  name!="addName"?IconButton(icon: const Icon(Icons.arrow_back,color: Colors.black,),
   
  onPressed: (){
    Navigator.pop(context);
-  },),
+  },):null,
 
    
       ),
